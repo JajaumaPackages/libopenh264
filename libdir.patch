@@ -1,0 +1,36 @@
+diff -uNr openh264-1.6.0.orig/Makefile openh264-1.6.0/Makefile
+--- openh264-1.6.0.orig/Makefile	2016-08-13 16:07:54.517610621 +0300
++++ openh264-1.6.0/Makefile	2016-08-13 16:26:24.395576622 +0300
+@@ -26,7 +26,7 @@
+ OBJ=o
+ DESTDIR=
+ LIBDIR_NAME=lib
+-SHAREDLIB_DIR=$(PREFIX)/lib
++SHAREDLIB_DIR=$(PREFIX)/$(LIBDIR_NAME)
+ PROJECT_NAME=openh264
+ MODULE_NAME=gmpopenh264
+ GMP_API_BRANCH=Firefox39
+@@ -278,10 +278,10 @@
+ endif
+ 
+ $(PROJECT_NAME).pc: $(PROJECT_NAME).pc.in
+-	@sed -e 's;@prefix@;$(PREFIX);' -e 's;@VERSION@;$(VERSION);' -e 's;@LIBS@;;' -e 's;@LIBS_PRIVATE@;$(STATIC_LDFLAGS);' < $< > $@
++	@sed -e 's;@prefix@;$(PREFIX);' -e 's;@libdir@;$${prefix}/$(LIBDIR_NAME);' -e 's;@VERSION@;$(VERSION);' -e 's;@LIBS@;;' -e 's;@LIBS_PRIVATE@;$(STATIC_LDFLAGS);' < $< > $@
+ 
+ $(PROJECT_NAME)-static.pc: $(PROJECT_NAME).pc.in
+-	@sed -e 's;@prefix@;$(PREFIX);' -e 's;@VERSION@;$(VERSION);' -e 's;@LIBS@;$(STATIC_LDFLAGS);' -e 's;@LIBS_PRIVATE@;;' < $< > $@
++	@sed -e 's;@prefix@;$(PREFIX);' -e 's;@libdir@;$${prefix}/$(LIBDIR_NAME);' -e 's;@VERSION@;$(VERSION);' -e 's;@LIBS@;$(STATIC_LDFLAGS);' -e 's;@LIBS_PRIVATE@;;' < $< > $@
+ 
+ install-headers:
+ 	mkdir -p $(DESTDIR)$(PREFIX)/include/wels
+Binary files openh264-1.6.0.orig/.Makefile.swp and openh264-1.6.0/.Makefile.swp differ
+diff -uNr openh264-1.6.0.orig/openh264.pc.in openh264-1.6.0/openh264.pc.in
+--- openh264-1.6.0.orig/openh264.pc.in	2016-08-13 16:07:54.578609026 +0300
++++ openh264-1.6.0/openh264.pc.in	2016-08-13 16:08:30.023681957 +0300
+@@ -1,5 +1,5 @@
+ prefix=@prefix@
+-libdir=${prefix}/lib
++libdir=@libdir@
+ includedir=${prefix}/include
+ 
+ Name: OpenH264
